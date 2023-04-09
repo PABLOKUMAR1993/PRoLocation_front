@@ -1,0 +1,43 @@
+<section class="container-fluid text-center mt-5">
+
+  <header>
+    <h3>Aplicación para Localizar &</h3>
+    <h3>Gestionar tu Flota de Vehículos.</h3>
+  </header>
+
+  <article class="container-fluid text-center mt-5">
+
+    <aside class="col">
+      <div class="card" (click)="viewImageOne()">
+        <div class="card-body">
+          <h5 class="card-title">Seguimiento Activo por GPS.</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">Sigue en vivo tus vehículos.</h6>
+          <p class="card-text">Sigue en tiempo real la ubicación de tu vehículo con nuestra función de seguimiento GPS
+            en
+            la aplicación.</p>
+        </div>
+      </div>
+      <div class="card" (click)="viewImageTwo()">
+        <div class="card-body">
+          <h5 class="card-title">Gestión de Vehículos.</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">Mantenimiento, aceite, limpieza, etc.</h6>
+          <p class="card-text">Mantén tu flota de vehículos al día con nuestra función de gestión integral en la
+            aplicación: controla el inventario, el kilometraje, el mantenimiento y más.</p>
+        </div>
+      </div>
+    </aside>
+
+    <div *ngIf="imageSelected; else elseBlock">
+      <aside class="col">
+        <img [src]="imageBlack"/>
+      </aside>
+    </div>
+    <ng-template #elseBlock>
+      <aside class="col">
+        <img [src]="imageBlue"/>
+      </aside>
+    </ng-template>
+
+  </article>
+
+</section>

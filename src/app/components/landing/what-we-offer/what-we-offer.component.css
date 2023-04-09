@@ -1,0 +1,30 @@
+article {
+  display: flex;
+  justify-content: space-between;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
+  padding: 1vh 1vw 1vh 1vw;
+  text-align: left;
+}
+
+.card {
+  margin: 5px 0 5px 0;
+}
+
+img {
+  width: 100%;
+}
+
+.list-group {
+  width: 100%;
+}
+
+.list-group-item {
+  height: 65px;
+}
