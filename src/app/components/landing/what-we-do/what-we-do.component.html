@@ -29,12 +29,12 @@
 
     <div *ngIf="imageSelected; else elseBlock">
       <aside class="col">
-        <img [src]="imageBlack"/>
+        <img [src]="imageBlack" alt="Imágen que acompaña la descripción" />
       </aside>
     </div>
     <ng-template #elseBlock>
       <aside class="col">
-        <img [src]="imageBlue"/>
+        <img [src]="imageBlue" alt="Imágen que acompaña la descripción" />
       </aside>
     </ng-template>
 
