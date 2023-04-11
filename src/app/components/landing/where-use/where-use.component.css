@@ -1,3 +1,4 @@
-
-
-
+.cardContent {
+  display: flex;
+  justify-content: center;
+}

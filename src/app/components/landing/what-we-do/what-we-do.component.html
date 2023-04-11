@@ -5,7 +5,7 @@
     <h3>Gestionar tu Flota de Vehículos.</h3>
   </header>
 
-  <article class="container-fluid text-center mt-5">
+  <article class="container container-fluid text-center mt-5">
 
     <aside class="col">
       <div class="card" (click)="viewImageOne()">
@@ -27,15 +27,17 @@
       </div>
     </aside>
 
-    <div *ngIf="imageSelected; else elseBlock">
+    <div  class="image" *ngIf="imageSelected; else elseBlock">
       <aside class="col">
-        <img [src]="imageBlack" alt="Imágen que acompaña la descripción" />
+        <img [src]="imageBlack" alt="Imágen que acompaña la descripción"/>
       </aside>
     </div>
     <ng-template #elseBlock>
-      <aside class="col">
-        <img [src]="imageBlue" alt="Imágen que acompaña la descripción" />
-      </aside>
+      <div class="image">
+        <aside class="col">
+          <img [src]="imageBlue" alt="Imágen que acompaña la descripción"/>
+        </aside>
+      </div>
     </ng-template>
 
   </article>
