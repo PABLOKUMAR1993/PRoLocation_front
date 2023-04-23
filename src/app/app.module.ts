@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
@@ -12,6 +11,7 @@ import { SloganWithIllustrationComponent } from './components/landing/slogan-wit
 import { WhatWeOfferComponent } from './components/landing/what-we-offer/what-we-offer.component';
 import { SloganWithIllustration2Component } from './components/landing/slogan-with-illustration2/slogan-with-illustration2.component';
 import { WhereUseComponent } from './components/landing/where-use/where-use.component';
+import { SloganWithIllustration3Component } from './components/landing/slogan-with-illustration3/slogan-with-illustration3.component';
 import { ContactFormComponent } from './components/landing/contact-form/contact-form.component';
 import { FooterComponent } from './components/landing/footer/footer.component';
 
@@ -26,13 +26,14 @@ import { FooterComponent } from './components/landing/footer/footer.component';
     SloganWithIllustration2Component,
     WhereUseComponent,
     ContactFormComponent,
-    FooterComponent
+    FooterComponent,
+    SloganWithIllustration3Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,48 @@
-.cardContent {
-  display: flex;
-  justify-content: center;
+/************************************/
+/*Resolución mayor o igual a 1024px.*/
+/************************************/
+
+
+section {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+article {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
+.card {
+  margin-top: 25px;
+}
+
+/************************************/
+/*Resolución mayor o igual a 768px.*/
+/************************************/
+
+
+@media screen and (max-width: 768px) {
+
+  article {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+
+/************************************/
+/*Resolución mayor o igual a 425px.*/
+/************************************/
+
+
+@media screen and (max-width: 425px) {
+
+  article {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
 }

@@ -8,20 +8,24 @@ import { Component, Renderer2 } from '@angular/core';
 export class WhatWeOfferComponent {
 
 
-  // Attributes
+  // Atributos
 
-  imageBlack: string = "../../../../../assets/img/black.jpg";
-  imageBlue: string = "../../../../../assets/img/blue.jpg";
-  imageActive: string = "../../../../../assets/img/black.jpg";
+  image1: string = "../../../../../assets/img/simbolo-ubicacion-fondo-paisaje.jpg";
+  image2: string = "../../../../../assets/img/vista-lateral-manos-sosteniendo-mapa.jpg";
+  image3: string = "../../../../../assets/img/marcin-jozwiak-oh0DITWoHi4-unsplash.jpg";
+  image4: string = "../../../../../assets/img/mediados-seccion-femenina-mecanico-que-usa-computadora-portatil.jpg";
+  imageActive: string = this.image1;
 
 
   // Constructor
 
+  /**
+   * Constructor de la clase. Inyecta el servicio Renderer2 para poder manipular el DOM.
+   */
   constructor( private render: Renderer2 ) { }
 
 
-  // Methods
-
+  // Métodos
 
   /**
    * Método que resetea las clases, para que ningún elemento tenga color de fondo azul "active".
@@ -48,27 +52,27 @@ export class WhatWeOfferComponent {
     let button;
     switch (number) {
       case 1:
-        this.imageActive = this.imageBlack;
+        this.imageActive = this.image1;
         button = document.querySelector("#button1");
         this.render.addClass( button, "active" );
         break;
       case 2:
-        this.imageActive = this.imageBlue;
+        this.imageActive = this.image2;
         button = document.querySelector("#button2");
         this.render.addClass( button, "active" );
         break;
       case 3:
-        this.imageActive = this.imageBlack;
+        this.imageActive = this.image3;
         button = document.querySelector("#button3");
         this.render.addClass( button, "active" );
         break;
       case 4:
-        this.imageActive = this.imageBlue;
+        this.imageActive = this.image4;
         button = document.querySelector("#button4");
         this.render.addClass( button, "active" );
         break;
       default:
-        this.imageActive = this.imageBlack;
+        this.imageActive = this.image1;
     }
 
   }

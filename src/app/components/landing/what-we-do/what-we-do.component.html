@@ -1,43 +1,45 @@
-<section class="container-fluid text-center mt-5">
+<section class="container text-center">
 
   <header>
-    <h3>Aplicación para Localizar &</h3>
-    <h3>Gestionar tu Flota de Vehículos.</h3>
+    <h1 class="display-6">Aplicación para localizar &</h1>
+    <h1 class="display-6">gestionar tu flota de vehículos.</h1>
   </header>
 
-  <article class="container container-fluid text-center mt-5">
+  <article>
 
-    <aside class="col">
-      <div class="card" (click)="viewImageOne()">
+    <aside class="asideCard">
+
+      <div id="cardOne" class="card border-primary" (click)="viewImageOne()">
+        <div class="card-header">Seguimiento</div>
         <div class="card-body">
-          <h5 class="card-title">Seguimiento Activo por GPS.</h5>
+          <h5 id="titleOne" class="card-title text-primary">Seguimiento Activo por GPS.</h5>
           <h6 class="card-subtitle mb-2 text-body-secondary">Sigue en vivo tus vehículos.</h6>
           <p class="card-text">Sigue en tiempo real la ubicación de tu vehículo con nuestra función de seguimiento GPS
-            en
-            la aplicación.</p>
+            en la aplicación.</p>
+          <a (click)="viewImageOne()" class="card-link">Ver Imagen</a>
         </div>
       </div>
-      <div class="card" (click)="viewImageTwo()">
+
+      <div id="cardTwo" class="card" (click)="viewImageTwo()">
+        <div class="card-header">Gestión</div>
         <div class="card-body">
-          <h5 class="card-title">Gestión de Vehículos.</h5>
+          <h5 id="titleTwo" class="card-title">Gestión de Vehículos.</h5>
           <h6 class="card-subtitle mb-2 text-body-secondary">Mantenimiento, aceite, limpieza, etc.</h6>
           <p class="card-text">Mantén tu flota de vehículos al día con nuestra función de gestión integral en la
             aplicación: controla el inventario, el kilometraje, el mantenimiento y más.</p>
+          <a (click)="viewImageTwo()" class="card-link">Ver Imagen</a>
         </div>
       </div>
+
     </aside>
 
-    <div  class="image" *ngIf="imageSelected; else elseBlock">
-      <aside class="col">
-        <img [src]="imageBlack" alt="Imágen que acompaña la descripción"/>
-      </aside>
-    </div>
+    <aside class="asideImg" *ngIf="imageSelected; else elseBlock">
+      <img [src]="imageSeguimientoActivo" alt="Imagen que acompaña la descripción"/>
+    </aside>
     <ng-template #elseBlock>
-      <div class="image">
-        <aside class="col">
-          <img [src]="imageBlue" alt="Imágen que acompaña la descripción"/>
-        </aside>
-      </div>
+      <aside class="asideImg">
+        <img [src]="imageGestionVehiculo" alt="Imagen que acompaña la descripción"/>
+      </aside>
     </ng-template>
 
   </article>

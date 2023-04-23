@@ -1,28 +1,32 @@
-<section class="container text-center mt-5">
+<section class="container text-center">
 
   <header>
-    <h3>¿Que Hace PRo Location para TÍ?</h3>
+    <h1 class="display-6">¿Que hace PRo Location para ti?</h1>
   </header>
 
-  <article class="container-fluid text-center mt-5">
+  <article class="text-center">
 
-    <aside class="col">
-      <img [src]="imageActive" alt="Imágen que muestra una demostración del texto que la acompaña"/>
+    <aside class="colImg">
+      <img [src]="imageActive" alt="Imagen que muestra una demostración del texto que la acompaña"/>
     </aside>
 
-    <aside class="col">
+    <aside class="colTxt">
       <div class="list-group">
-        <button type="button" id="button1" class="list-group-item list-group-item-action active" (click)="deleteClassActive(1)">
-          1 Localizar al vehículo.
+        <button type="button" id="button1" class="list-group-item list-group-item-action active"
+                (click)="deleteClassActive(1)">
+          <p class="h5">1 Localizar al vehículo.</p>
         </button>
-        <button type="button" id="button2" class="list-group-item list-group-item-action" (click)="deleteClassActive(2)">
-          2 Optimización de rutas.
+        <button type="button" id="button2" class="list-group-item list-group-item-action"
+                (click)="deleteClassActive(2)">
+          <p class="h5">2 Optimización de rutas.</p>
         </button>
-        <button type="button" id="button3" class="list-group-item list-group-item-action" (click)="deleteClassActive(3)">
-          3 Gestionar la flota.
+        <button type="button" id="button3" class="list-group-item list-group-item-action"
+                (click)="deleteClassActive(3)">
+          <p class="h5">3 Gestionar la flota.</p>
         </button>
-        <button type="button" id="button4" class="list-group-item list-group-item-action" (click)="deleteClassActive(4)">
-          4 Mantenimiento de Vehículos.
+        <button type="button" id="button4" class="list-group-item list-group-item-action"
+                (click)="deleteClassActive(4)">
+          <p class="h5">4 Mantenimiento de Vehículos.</p>
         </button>
       </div>
     </aside>

@@ -7,9 +7,6 @@ import { Component } from '@angular/core';
 })
 export class SloganWithIllustrationComponent {
 
-
-  // Attributes
-
-  imageBackground: string = "../../../../../assets/img/black.jpg";
+  imageBackground: string = "../../../../../assets/img/bernd-dittrich-eCc7FjMoR74-unsplash.jpg";
 
 }

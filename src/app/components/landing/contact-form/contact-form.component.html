@@ -1,36 +1,51 @@
-<section class="container">
-
+<section id="contactComponent" class="container">
   <h1 class="text-center">¿Hablamos?</h1>
 
-  <div class="row">
+  <article>
 
-    <div id="containerDivEmail" class="mb-3 col">
-      <label for="email" class="form-label">Email</label>
-      <div id="divEmail" class="input-group">
-        <div class="input-group-text">@</div>
-        <input type="email" class="form-control" id="email" placeholder="nombre@ejemplo.com" [(ngModel)]="email">
+    <div class="row">
+
+      <div id="containerDivEmail" class="col-md-6 col-sm-12 mb-3">
+        <label for="email" class="form-label">Email</label>
+        <div id="divEmail" class="input-group has-validation">
+          <span class="input-group-text" id="emailPrepend">@</span>
+          <input type="email" class="form-control" id="email" aria-describedby="emailPrepend"
+                 placeholder="nombre@ejemplo.com" [(ngModel)]="email">
+          <div class="valid-feedback">{{textValid}}</div>
+          <div class="invalid-feedback">{{textInvalidEmail}}</div>
+        </div>
       </div>
+
+      <div class="col-md-6 col-sm-12 mb-3">
+        <label for="subject" class="form-label">Asunto</label>
+        <input type="text" class="form-control" id="subject" placeholder="Ej: Contacto Comercial" [(ngModel)]="subject">
+        <div class="valid-feedback">{{textValid}}</div>
+        <div class="invalid-feedback">{{textInvalidSubject}}</div>
+      </div>
+
     </div>
 
-    <div class="mb-3 col">
-      <label for="subject" class="form-label">Asunto</label>
-      <input type="email" class="form-control" id="subject" placeholder="Ej: Contacto Comercial" [(ngModel)]="subject">
+    <div class="mb-3">
+      <label for="message" class="form-label">Mensaje</label>
+      <textarea class="form-control" id="message" rows="3" [(ngModel)]="message"></textarea>
+      <div class="valid-feedback">{{textValid}}</div>
+      <div class="invalid-feedback">{{textInvalidMessage}}</div>
     </div>
 
-  </div>
+    <div class="mb-3">
+      <label for="file" class="form-label">Archivo</label>
+      <input class="form-control" type="file" id="file" (change)="onFileSelected($event)">
+    </div>
 
-  <div class="mb-3">
-    <label for="message" class="form-label">Mensaje</label>
-    <textarea class="form-control" id="message" rows="3" [(ngModel)]="message"></textarea>
-  </div>
+  </article>
 
-  <div class="mb-3">
-    <label for="file" class="form-label" [(ngModel)]="fileInput">Archivo</label>
-    <input class="form-control" type="file" id="file">
+  <div *ngIf="alert" class="alert alert-success text-center" role="alert">
+    {{messageSubmited}}
   </div>
 
   <div class="container text-center">
     <button (click)="validateForm()" class="btn btn-primary ">Enviar</button>
   </div>
+
 
 </section>

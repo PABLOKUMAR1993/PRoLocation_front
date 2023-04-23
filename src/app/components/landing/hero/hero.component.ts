@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./hero.component.css']
 })
 export class HeroComponent {
-  imageHero = "../../../../../assets/img/hero.png";
-  imageBlack = "../../../../../assets/img/black.jpg";
+
+  imageHero = "../../../../../assets/img/wallpaper.jpg";
+
 }

@@ -8,7 +8,7 @@ import {catchError, Observable, throwError} from "rxjs";
 export class DevicesService {
 
 
-  // Attribute
+  // Atributos
 
 
   private readonly url: string = "http://localhost:3000";
@@ -20,7 +20,7 @@ export class DevicesService {
   constructor( private httpClient: HttpClient ) {}
 
 
-  // Methods
+  // Metodos
 
 
   // public all(): Observable<any> {

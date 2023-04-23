@@ -1,81 +1,58 @@
-<section class="container">
+<section class="container text-center">
 
-  <div class="row">
-    <div class="col text-center mt-5">
-      <h1>APLICACIONES</h1>
-    </div>
-  </div>
+  <header>
+    <h1 class="display-6">¿Que hace PRo Location para ti?</h1>
+  </header>
 
-  <div class="container text-center">
-    <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
-      <div class="col cardContent mt-5">
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" alt="imagen de portada para la tarjeta"
-            src="https://images.unsplash.com/photo-1594771804886-a933bb2d609b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1482&q=80" />
-          <div class="card-body">
-            <h5 class="card-title"><i class="fa-solid fa-tractor"></i> Sector Agricola</h5>
-            <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehiculos.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col cardContent mt-5">
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" alt="imagen de portada para la tarjeta"
-               src="https://images.unsplash.com/photo-1594771804886-a933bb2d609b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1482&q=80" />
-          <div class="card-body">
-            <h5 class="card-title"><i class="fa-solid fa-tractor"></i> Sector Agricola</h5>
-            <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehiculos.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col cardContent mt-5">
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" alt="imagen de portada para la tarjeta"
-               src="https://images.unsplash.com/photo-1594771804886-a933bb2d609b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1482&q=80" />
-          <div class="card-body">
-            <h5 class="card-title"><i class="fa-solid fa-tractor"></i> Sector Agricola</h5>
-            <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehiculos.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col cardContent mt-5">
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" alt="imagen de portada para la tarjeta"
-               src="https://images.unsplash.com/photo-1594771804886-a933bb2d609b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1482&q=80" />
-          <div class="card-body">
-            <h5 class="card-title"><i class="fa-solid fa-tractor"></i> Sector Agricola</h5>
-            <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehiculos.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col cardContent mt-5">
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" alt="imagen de portada para la tarjeta"
-               src="https://images.unsplash.com/photo-1594771804886-a933bb2d609b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1482&q=80" />
-          <div class="card-body">
-            <h5 class="card-title"><i class="fa-solid fa-tractor"></i> Sector Agricola</h5>
-            <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehiculos.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <div class="col cardContent mt-5">
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" alt="imagen de portada para la tarjeta"
-               src="https://images.unsplash.com/photo-1594771804886-a933bb2d609b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1482&q=80" />
-          <div class="card-body">
-            <h5 class="card-title"><i class="fa-solid fa-tractor"></i> Sector Agricola</h5>
-            <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehiculos.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
+  <article>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" alt="imagen de portada para la tarjeta"
+           [src]="imageTractor"/>
+      <div class="card-body">
+        <h5 class="card-title"><i class="fa-solid fa-tractor"></i> <br>Soluciones Agrícolas</h5>
+        <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehiculos.</p>
       </div>
     </div>
-  </div>
-
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" alt="imagen de portada para la tarjeta"
+           [src]="imageDelivery"/>
+      <div class="card-body">
+        <h5 class="card-title"><i class="fa-solid fa-truck-ramp-box"></i> <br>Soluciones para Repartos</h5>
+        <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehiculos.</p>
+      </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" alt="imagen de portada para la tarjeta"
+           [src]="imageMechanic"/>
+      <div class="card-body">
+        <h5 class="card-title"><i class="fa-solid fa-wrench"></i> <br>Gestiones Mecánicas.</h5>
+        <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehículos.</p>
+      </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" alt="imagen de portada para la tarjeta"
+           [src]="imageDrivingQuality"/>
+      <div class="card-body">
+        <h5 class="card-title"><i class="fa-solid fa-car"></i> <br>Control de Calidad de Conducción.</h5>
+        <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehículos.</p>
+      </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" alt="imagen de portada para la tarjeta"
+           [src]="imageAnalisys"/>
+      <div class="card-body">
+        <h5 class="card-title"><i class="fa-solid fa-car-side"></i> <br>Análisis de Conducción Eficiente.</h5>
+        <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehículos.</p>
+      </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" alt="imagen de portada para la tarjeta"
+           [src]="imageGps"/>
+      <div class="card-body">
+        <h5 class="card-title"><i class="fa-solid fa-location-dot"></i> <br>Seguimiento en Tiempo Real.</h5>
+        <p class="card-text">Puedes consultar en cualquier momento dónde se encuentran sus vehiculos.</p>
+      </div>
+    </div>
+  </article>
 
 </section>
