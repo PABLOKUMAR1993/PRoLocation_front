@@ -1,0 +1,13 @@
+<aside>
+  <header>
+    <input type="checkbox" id="checkTodos">
+    <label for="checkTodos"><h4>Tus Vehículos</h4></label>
+  </header>
+  <div>
+    <ul id="vehicleList" *ngIf="showVehiclesList; else noVehicles">
+    </ul>
+    <ng-template #noVehicles>
+      <p>No tienes vehículos registrados</p>
+    </ng-template>
+  </div>
+</aside>

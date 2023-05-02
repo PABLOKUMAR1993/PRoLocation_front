@@ -40,6 +40,7 @@ export class ContactService {
     formData.append( "email", contact.getEmail() );
     formData.append( "subject", contact.getSubject() );
     formData.append( "message", contact.getMessage() );
+    // Si hay un archivo, lo añado al formulario.
     if ( contact.getFileInput() ) formData.append( "file", contact.getFileInput() );
 
     // Envío el formulario.

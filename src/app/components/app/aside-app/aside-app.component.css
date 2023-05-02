@@ -1,0 +1,80 @@
+aside {
+  width: 40%;
+  height: calc( 100vh - 120px );
+  background-color: #EEEEEE;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+aside header {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-left: 30px;
+  height: 60px;
+  background-color: #222831;
+  width: 100%;
+}
+
+aside header #checkTodos {
+  width: 20px;
+  height: 20px;
+  margin-right: 20px;
+  background-color: #222831;
+}
+
+aside header label h4 {
+  color: #EEE;
+  margin: 0;
+}
+
+aside div {
+  width: 100%;
+}
+
+#vehicleList {
+  width: 100%;
+}
+
+#vehicleList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 30px;
+  height: 40px;
+}
+
+#vehicleList li:nth-child(odd) {
+  background-color: #EEE;
+}
+
+#vehicleList li:nth-child(even) {
+  background-color: #D4D4D4;
+}
+
+#vehicleList li div {
+  display: flex;
+  align-items: center;
+}
+
+#vehicleList li div:nth-child(2) {
+  justify-content: flex-end;
+}
+
+#vehicleList li label {
+  cursor: pointer;
+}
+
+#vehicleList li div input {
+  width: 20px;
+  height: 20px;
+  margin-right: 20px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-right: 20px;
+}

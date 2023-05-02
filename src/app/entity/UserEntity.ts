@@ -1,39 +1,36 @@
 export class UserEntity {
 
-
   // Constructor
 
-  constructor( private _email: string, private _password: string ) {
-    this._email = _email;
-    this._password = _password;
+  constructor( private email: string, private password: string ) {
+    this.email = email;
+    this.password = password;
   }
-
 
   // Getters y Setters
 
   getEmail() {
-    return this._email;
+    return this.email;
   }
 
   setEmail(email: string) {
-    this._email = email;
+    this.email = email;
   }
 
   getPassword() {
-    return this._password;
+    return this.password;
   }
 
   setPassword(password: string) {
-    this._password = password;
+    this.password = password;
   }
-
 
   // toString
 
   toString() {
     return (
-      "Email: " + this._email +
-      " Password: " + this._password
+      "Email: " + this.email +
+      " Password: " + this.password
     );
   }
 

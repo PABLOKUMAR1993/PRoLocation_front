@@ -1,1 +1,130 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+/ RESET
+*/
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*
+* TIPOGRAFÍAS
+*/
+
+
+/* ROBOTO: Cuerpos */
+
+.robotoThin { font-family: roboto, sans-serif; font-weight: 200; font-style: normal; }
+.robotoLight { font-family: roboto, sans-serif; font-weight: 300; font-style: normal; }
+.robotoRegular { font-family: roboto, sans-serif; font-weight: 400; font-style: normal; }
+.robotoMedium { font-family: roboto, sans-serif; font-weight: 500; font-style: normal; }
+.robotoBold { font-family: roboto, sans-serif; font-weight: 700; font-style: normal; }
+.robotoBlack { font-family: roboto, sans-serif; font-weight: 900; font-style: normal; }
+
+
+/* ROBOTO SLAB: Títulos */
+
+.robotoSlabThin { font-family: roboto-slab, serif; font-weight: 200; font-style: normal; }
+.robotoSlabLight { font-family: roboto-slab, serif; font-weight: 300; font-style: normal; }
+.robotoSlabRegular { font-family: roboto-slab, serif; font-weight: 400; font-style: normal; }
+.robotoSlabBold { font-family: roboto-slab, serif; font-weight: 700; font-style: normal; }
+
+
+/*
+* COLORES
+*/
+
+
+.colorClaro1 { color: #EEEEEE; }
+.colorClaro2 { color: #F7E6DF; }
+.colorClaro3 { color: #D1C2BC; }
+.colorClaro4 { color: #D4D4D4; }
+
+.colorOscuro1 { color: #222831; }
+.colorOscuro2 { color: #56667D; }
+.colorOscuro3 { color: #393E46; }
+.colorOscuro4 { color: #5F718A; }
+
+.colorEnfasis1 { color: #00ADB5 }
+.colorEnfasis2 { color: #007C82; }
+.colorEnfasis3 { color: #103436; }
+.colorEnfasis4 { color: #006F75; }
+
+
+/*
+* Etiquetas de Texto Generales
+*/
+
+
+h1 {
+  font-size: 40px;
+  font-family: roboto-slab, serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h2 {
+  font-size: 36px;
+  font-family: roboto-slab, serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h3 {
+  font-size: 32px;
+  font-family: roboto-slab, serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h4 {
+  font-size: 28px;
+  font-family: roboto-slab, serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h5 {
+  font-size: 24px;
+  font-family: roboto-slab, serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h6 {
+  font-size: 20px;
+  font-family: roboto-slab, serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+p {
+  font-size: 16px;
+  font-family: roboto, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+a {
+  text-decoration: none;
+  font-size: 16px;
+  font-family: roboto, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+label {
+  text-decoration: none;
+  font-size: 20px;
+  font-family: roboto, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}

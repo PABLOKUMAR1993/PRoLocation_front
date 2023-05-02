@@ -1,0 +1,25 @@
+<nav>
+  <img [src]="imageLogo" alt="logo">
+  <ul>
+    <li id="clickMenu1" class="active" (click)="clickMenu(1)">
+      <img [src]="location" alt="icono">
+      <a href="#">Actual</a>
+    </li>
+    <li id="clickMenu2" (click)="clickMenu(2)">
+      <img [src]="flag" alt="icono">
+      <a href="#">Recorrido</a>
+    </li>
+    <li id="clickMenu3" (click)="clickMenu(3)">
+      <img [src]="truck" alt="icono">
+      <a href="#">Vehículos</a>
+    </li>
+    <li id="clickMenu4" (click)="clickMenu(4)">
+      <img [src]="person" alt="icono">
+      <a href="#">Conductores</a>
+    </li>
+    <li id="clickMenu5" (click)="clickMenu(5)">
+      <img [src]="listCheck" alt="icono">
+      <a href="#">Tareas</a>
+    </li>
+  </ul>
+</nav>

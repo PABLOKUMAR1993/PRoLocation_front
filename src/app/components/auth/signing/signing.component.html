@@ -1,0 +1,35 @@
+<main>
+  <div class="col-md-4 mx-auto">
+    <!-- Card -->
+    <div class="card">
+      <div class="card-header">
+        <h1 class="display-6">Iniciar Sesión.</h1>
+      </div>
+      <div class="card-body">
+        <!-- Input Email -->
+        <div id="containerDivEmail">
+          <label for="email" class="form-label">E-mail:</label>
+          <div id="divEmail" class="input-group has-validation">
+            <span class="input-group-text">@</span>
+            <input type="email" class="form-control" id="email" placeholder="nombre@ejemplo.com" [(ngModel)]="email">
+          </div>
+        </div>
+        <!-- Input Password -->
+        <div id="containerDivPassword">
+          <label for="passwordInput" class="form-label">Contraseña:</label>
+          <div id="divPassword" class="input-group has-validation">
+            <input type="password" class="form-control" id="passwordInput" placeholder="*****" [(ngModel)]="password">
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="button" class="btn btn-primary" (click)="validateForm()">Iniciar Sesión</button>
+        <button type="button" class="btn btn-warning" routerLink="/">Volver</button>
+      </div>
+    </div>
+    <!-- Alert -->
+    <div class="alert alert-danger mt-3" role="alert" *ngIf="alert">
+      Usuario o contraseña errónea.
+    </div>
+  </div>
+</main>

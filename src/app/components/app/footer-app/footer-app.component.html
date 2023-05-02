@@ -1,0 +1,23 @@
+<footer>
+  <ul class="container-1">
+    <li class="aside">
+      <img [src]="aside" alt="icono para ocultar o mostrar el aside">
+    </li>
+    <li>
+      <p>© Pro Location.</p>
+    </li>
+    <li>
+      <ul class="container-2">
+        <li>
+          <img [src]="userAdmin" alt="icono de usuario admin">
+        </li>
+        <li>
+          <p>user name</p>
+        </li>
+        <li class="logOut">
+          <img [src]="logOut" alt="icono para cerrar sesión" (click)="logOutSession()">
+        </li>
+      </ul>
+    </li>
+  </ul>
+</footer>
