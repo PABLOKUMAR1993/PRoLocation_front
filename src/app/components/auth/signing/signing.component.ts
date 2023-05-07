@@ -25,8 +25,7 @@ export class SigningComponent {
    * Inyecta el servicio de render para poder modificar el DOM, el servicio de autenticación
    * para poder iniciar sesión y router para redirigir si el login ha sido exitoso.
    */
-  constructor(private render: Renderer2, private authService: AuthService, private router: Router) {
-  }
+  constructor(private render: Renderer2, private authService: AuthService, private router: Router) {}
 
 
   // Métodos
@@ -120,8 +119,6 @@ export class SigningComponent {
    */
   sendForm(): void {
 
-    console.log("Iniciando Sesión...");
-
     // Actualizo los datos del usuario.
     this.user.setEmail(this.email);
     this.user.setPassword(this.password);
@@ -130,7 +127,9 @@ export class SigningComponent {
     this.authService.singIn(this.user).subscribe({
       next: (res) => {
         // Guardo el token en el localStorage.
-        localStorage.setItem("token", res.token);
+        localStorage.setItem( "token", res.token );
+        // Guardo el usuario en el localStorage.
+        localStorage.setItem( "user", JSON.stringify( this.user ) );
         // Redirijo al usuario al panel de control.
         this.router.navigate(["/app"]).then(r => console.log("Redirigiendo..."));
       },

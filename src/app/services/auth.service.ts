@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { UserEntity} from "../entity/UserEntity";
-import {BehaviorSubject, Observable, tap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, Observable, tap, throwError} from "rxjs";
 import { Router } from "@angular/router";
 
 @Injectable({
@@ -12,7 +12,7 @@ export class AuthService {
 
   // Atributos
 
-  private readonly endpoint = 'http://localhost:3000/api/auth/signin'; // TODO cambiar por variable de entorno.
+  private readonly endpoint = 'http://localhost:3000/api/signin'; // TODO cambiar por variable de entorno.
 
 
   // Constructor
@@ -35,7 +35,7 @@ export class AuthService {
     headers.set( "Content-Type", "application/json" );
 
     // Envío la petición al servidor y devuelvo la respuesta.
-    return this.http.post( this.endpoint, user, { headers: headers } );
+    return this.http.post( this.endpoint, user, { headers: headers } ).pipe( catchError( this.error ) );
 
   }
 
@@ -51,17 +51,28 @@ export class AuthService {
    * Método que devuelve el token del localStorage.
    */
   getToken(): string | null {
-    console.log( "getToken: " + localStorage.getItem("token") );
     // Si existe el token, devolverá el token.
-    return localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+    if ( token ) return token;
+    else return null;
   }
 
+  /**
+   * Método que devuelve el usuario del localStorage.
+   */
+  getUser(): string | null {
+    // Si existe el token, devolverá el token.
+    const user = localStorage.getItem("user");
+    if ( user ) return JSON.parse( user );
+    else return null;
+  }
 
   /**
    * Método que cierra la sesión del usuario.
    */
   logOut(): void {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     this.router.navigate(["/auth"]).then(r => console.log("Sesión cerrada."));
   }
 
@@ -71,7 +82,7 @@ export class AuthService {
    * @param error Error generado durante la comunicación.
    */
   private error(error: any): Observable<any> {
-    console.error( "error en comunicación: " + error );
+    console.error( "error en login: " + error );
     return throwError(error);
   }
 

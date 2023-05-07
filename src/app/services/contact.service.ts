@@ -11,7 +11,7 @@ export class ContactService {
 
   // Atributos
 
-  private readonly endPoint: string = "http://localhost:3000/api/contact/contact"; // TODO cambiar por variable de entorno.
+  private readonly endPoint: string = "http://localhost:3000/api/contact"; // TODO cambiar por variable de entorno.
 
 
   // Constructor

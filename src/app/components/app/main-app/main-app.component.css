@@ -1,0 +1,11 @@
+main {
+  display: flex;
+}
+
+main app-aside-app {
+  width: 40%;
+}
+
+main app-section-app {
+  width: 60%;
+}

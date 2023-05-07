@@ -11,6 +11,8 @@ export class FooterAppComponent {
 
   // Atributos
 
+  user: any;
+
   ////// iconos
 
   aside: string = "../../../../../assets/icons/aside.svg";
@@ -20,10 +22,22 @@ export class FooterAppComponent {
 
   // Constructor
 
-  constructor( private authService: AuthService ) {}
+  constructor( private authService: AuthService ) {
+    this.getUserName()
+  }
 
 
   // Métodos
+
+  getUserName(): void {
+
+    // Obtengo el usuario del método getUser() del servicio authService.
+    const user = this.authService.getUser();
+
+    // Lo guardo en el atributo user.
+    this.user = user;
+
+  }
 
   logOutSession(): void {
     this.authService.logOut();

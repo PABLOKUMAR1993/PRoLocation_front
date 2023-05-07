@@ -12,7 +12,7 @@
           <img [src]="userAdmin" alt="icono de usuario admin">
         </li>
         <li>
-          <p>user name</p>
+          <p>{{ user.email }}</p>
         </li>
         <li class="logOut">
           <img [src]="logOut" alt="icono para cerrar sesión" (click)="logOutSession()">

@@ -1,4 +1,5 @@
 import {Component, Renderer2, AfterViewInit} from '@angular/core';
+import { SelectVehicleService } from "../../../services/select-vehicle.service";
 
 @Component({
   selector: 'app-aside-app',
@@ -87,14 +88,22 @@ export class AsideAppComponent implements AfterViewInit {
   edit: string = "../../../../../assets/icons/edit_dark.svg";
   tools: string = "../../../../../assets/icons/tools_dark.svg";
 
+
   // Constructor
 
-  constructor(private render: Renderer2) { }
+  /**
+   * Inyecto el render para poder modificar el DOM.
+   * @param render
+   */
+  constructor( private render: Renderer2, private selectVehicle: SelectVehicleService ) { }
 
 
   // Métodos
 
 
+  /**
+   * Después de que se haya cargado la vista, se ejecuta este método.
+   */
   ngAfterViewInit() {
     this.showVehicles();
   }
@@ -104,11 +113,11 @@ export class AsideAppComponent implements AfterViewInit {
    */
   showVehicles() {
 
-    console.log( "Estoy en show vehicules" );
     const ul = this.render.selectRootElement('#vehicleList');
 
     for (let i = 0; i < this.vehicles.length; i++) {
 
+      // Creo los elementos HTML.
       const li = this.render.createElement('li');
       const divLeft = this.render.createElement('div');
       const divRight = this.render.createElement('div');
@@ -118,6 +127,7 @@ export class AsideAppComponent implements AfterViewInit {
       const imgTools = this.render.createElement('img');
       const label = this.render.createElement('label');
 
+      // Anido los elementos HTML entre ellos.
       this.render.appendChild(ul, li);
       this.render.appendChild(li, divLeft);
       this.render.appendChild(li, divRight);
@@ -127,14 +137,17 @@ export class AsideAppComponent implements AfterViewInit {
       this.render.appendChild(divRight, imgEdit);
       this.render.appendChild(divRight, imgTools);
 
+      // Añado los atributos y clases a los elementos HTML.
       this.render.setAttribute(input, "id", `truck${i}`);
       this.render.setAttribute(input, "type", "checkbox");
       this.render.setAttribute(input, "name", `truck${i}`);
+      this.render.listen(input, "change", ( event ) => { this.onCheckboxClick( event.target.checked, i+1 ) });
       this.render.setAttribute(imgTruck, "src", this.truck);
       this.render.setAttribute(imgTruck, "alt", "icono de tipo de vehículo");
       this.render.addClass(imgTruck, "icon");
       this.render.setAttribute(label, "for", `truck${i}`);
 
+      // Añado los atributos y clases a los elementos HTML.
       this.render.setAttribute(imgEdit, "src", this.edit);
       this.render.setAttribute(imgEdit, "alt", "icono de editar vehículo");
       this.render.addClass(imgEdit, "icon");
@@ -142,11 +155,16 @@ export class AsideAppComponent implements AfterViewInit {
       this.render.setAttribute(imgTools, "alt", "icono de herramientas");
       this.render.addClass(imgTools, "icon");
 
+      // Creo el título de cada lista.
       const titulo = document.createTextNode( this.vehicles[i].nombre );
       this.render.appendChild( label, titulo );
 
     }
 
+  }
+
+  onCheckboxClick( check: boolean, id: number ): void {
+    if (check) this.selectVehicle.checkedVehicle.next( id );
   }
 
 }

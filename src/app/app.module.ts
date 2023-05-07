@@ -20,6 +20,9 @@ import { FooterAppComponent } from './components/app/footer-app/footer-app.compo
 import { SigningComponent } from './components/auth/signing/signing.component';
 import { AuthGuard } from "./guard/auth.guard";
 import { TokenInterceptorService } from "./services/token-interceptor.service";
+import { SectionAppComponent } from './components/app/section-app/section-app.component';
+import { MainAppComponent } from './components/app/main-app/main-app.component';
+import {GoogleMapsModule} from "@angular/google-maps";
 
 @NgModule({
   declarations: [
@@ -37,13 +40,16 @@ import { TokenInterceptorService } from "./services/token-interceptor.service";
     AsideAppComponent,
     NavAppComponent,
     FooterAppComponent,
-    SigningComponent
+    SigningComponent,
+    SectionAppComponent,
+    MainAppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    GoogleMapsModule,
   ],
   providers: [ AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true } ],
   bootstrap: [AppComponent]

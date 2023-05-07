@@ -25,8 +25,9 @@ import { SigningComponent } from './components/auth/signing/signing.component';
 // APP
 
 import { NavAppComponent } from './components/app/nav-app/nav-app.component';
-import { AsideAppComponent } from './components/app/aside-app/aside-app.component';
+import { MainAppComponent } from './components/app/main-app/main-app.component'
 import { FooterAppComponent } from './components/app/footer-app/footer-app.component';
+import { SectionAppComponent } from './components/app/section-app/section-app.component';
 
 
 const routes: Routes = [
@@ -52,8 +53,8 @@ const routes: Routes = [
     canActivateChild: [ AuthGuard ],
     children: [
       { path: "", component: NavAppComponent, outlet: "nav-app" },
-      { path: "", component: AsideAppComponent, outlet: "aside-app",  },
-      { path: "", component: FooterAppComponent, outlet: "footer-app" },
+      { path: "", component: MainAppComponent, outlet: "main-app",  },
+      { path: "", component: FooterAppComponent, outlet: "footer-app" }
     ]
   }
 ];
