@@ -3,7 +3,7 @@ export class ContactEntity {
 
   // Constructor
 
-  constructor(private _email: any, private _subject: any, private _message: any, private _fileInput?: any) {
+  constructor( private _email: any, private _subject: any, private _message: any, private _fileInput?: any ) {
     this._email = _email;
     this._subject = _subject;
     this._message = _message;

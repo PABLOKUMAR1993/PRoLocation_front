@@ -18,7 +18,7 @@ export class DeviceEntity {
   // Constructor
 
 
-  constructor() {
+  constructor(  ) {
 
     this.group = "";
     this.idExternal = "";

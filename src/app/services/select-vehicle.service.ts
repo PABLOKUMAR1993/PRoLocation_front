@@ -6,12 +6,9 @@ import { Subject } from 'rxjs';
 })
 export class SelectVehicleService {
 
-  // Atributos.
-
-  checkedVehicle = new Subject<number>();
-
-  // Constructor.
-
-  constructor() { }
+  // Este observable se utiliza para comunicar el componente de mapa con el componente de lista de vehículos.
+  // Concretamente aside con section.
+  checkedVehicle: Subject<any> = new Subject<any>();
+  unCheckedVehicle: Subject<any> = new Subject<any>();
 
 }

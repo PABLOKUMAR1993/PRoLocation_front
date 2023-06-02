@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { UserEntity} from "../entity/UserEntity";
-import {BehaviorSubject, catchError, Observable, tap, throwError} from "rxjs";
+import { catchError, Observable, throwError} from "rxjs";
 import { Router } from "@angular/router";
+import { environment } from "../../environment/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
 
   // Atributos
 
-  private readonly endpoint = 'http://localhost:3000/api/signin'; // TODO cambiar por variable de entorno.
+  private readonly endpoint = environment.apiUrl + environment.apiSignIn;
 
 
   // Constructor

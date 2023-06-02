@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { ContactEntity } from "../entity/ContactEntity";
-import { catchError, Observable, throwError } from "rxjs";
+import { Observable, throwError } from "rxjs";
+import { environment } from "../../environment/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class ContactService {
 
   // Atributos
 
-  private readonly endPoint: string = "http://localhost:3000/api/contact"; // TODO cambiar por variable de entorno.
+  private readonly endPoint: string = environment.apiUrl + environment.apiContact;
 
 
   // Constructor

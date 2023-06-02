@@ -1,0 +1,16 @@
+export interface VehicleI {
+  _id: string,
+  idDispositivo: string,
+  idMantenimiento: string,
+  tipoVehiculo: string,
+  marca: string,
+  modelo: string,
+  chasis: number,
+  matricula: string,
+  fechaAlta: Date,
+  kmIniciales: number,
+  kmActuales: number,
+  estado: boolean,
+  idApi: string,
+  idConductor: string,
+}

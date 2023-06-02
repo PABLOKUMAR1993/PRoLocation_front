@@ -23,6 +23,10 @@ import { TokenInterceptorService } from "./services/token-interceptor.service";
 import { SectionAppComponent } from './components/app/section-app/section-app.component';
 import { MainAppComponent } from './components/app/main-app/main-app.component';
 import {GoogleMapsModule} from "@angular/google-maps";
+import {ContactService} from "./services/contact.service";
+import {PositionService} from "./services/position.service";
+import {SelectVehicleService} from "./services/select-vehicle.service";
+import {VehiclesService} from "./services/vehicles.service";
 
 @NgModule({
   declarations: [
@@ -51,7 +55,15 @@ import {GoogleMapsModule} from "@angular/google-maps";
     HttpClientModule,
     GoogleMapsModule,
   ],
-  providers: [ AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true } ],
+  providers: [
+    AuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
+    ContactService,
+    PositionService,
+    SelectVehicleService,
+    TokenInterceptorService,
+    VehiclesService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

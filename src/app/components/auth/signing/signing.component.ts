@@ -84,7 +84,6 @@ export class SigningComponent {
     this.render.addClass(password, "is-valid");
   }
 
-
   /**
    * Esté método será llamado cada vez que se pulse el botón de enviar, sirve para resetear los mensajes de validación
    * de los inputs, para evitar su acumulación.
@@ -129,7 +128,7 @@ export class SigningComponent {
         // Guardo el token en el localStorage.
         localStorage.setItem( "token", res.token );
         // Guardo el usuario en el localStorage.
-        localStorage.setItem( "user", JSON.stringify( this.user ) );
+        localStorage.setItem( "user", JSON.stringify( res.user ) );
         // Redirijo al usuario al panel de control.
         this.router.navigate(["/app"]).then(r => console.log("Redirigiendo..."));
       },

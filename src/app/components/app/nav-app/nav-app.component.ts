@@ -15,11 +15,11 @@ export class NavAppComponent {
 
   ////// icons
 
-  location: string = "../../../../../assets/icons/map-marker.svg";
-  flag: string = "../../../../../assets/icons/flag.svg";
-  listCheck: string = "../../../../../assets/icons/list-check.svg";
-  person: string = "../../../../../assets/icons/person.svg";
-  truck: string = "../../../../../assets/icons/truck.svg";
+  location: string = "../../../../../assets/icons/light/map_marker_light.svg";
+  flag: string = "../../../../../assets/icons/light/flag_light.svg";
+  listCheck: string = "../../../../../assets/icons/light/list_check_light.svg";
+  person: string = "../../../../../assets/icons/light/person_light.svg";
+  truck: string = "../../../../../assets/icons/light/truck_light.svg";
 
 
   // Constructor

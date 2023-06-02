@@ -1,170 +1,186 @@
-import {Component, Renderer2, AfterViewInit} from '@angular/core';
-import { SelectVehicleService } from "../../../services/select-vehicle.service";
+import {Component, Renderer2, OnInit} from '@angular/core';
+import {SelectVehicleService} from "../../../services/select-vehicle.service";
+import {VehiclesService} from "../../../services/vehicles.service";
+import {VehicleI} from "../../../interface/VehicleI";
+import {UserI} from "../../../interface/UserI";
+import {DriverService} from "../../../services/driver.service";
+import {DriverEntity} from "../../../entity/DriverEntity";
 
 @Component({
   selector: 'app-aside-app',
   templateUrl: './aside-app.component.html',
   styleUrls: ['./aside-app.component.css']
 })
-export class AsideAppComponent implements AfterViewInit {
-
-  // Atributos
-
-  vehicles = [
-    {
-      id: "123456789",
-      nombre: "Vehículo 01",
-      datosVehiculo: {
-        idLocalizador: "987654321",
-        chasis: "45682",
-        matricula: "1234ABC",
-        marca: "Ford",
-        modelo: "Focus",
-        tipo: "Turismo",
-      },
-      estadoVehiculo: {
-        kilometrajeIncial: 10000,
-        kilometrajeActual: 54000,
-        mediaDiaria: 400,
-        filtros: {
-          aceite: [
-            {kilometros: 10000, fecha: "01/01/2019"},
-            {kilometros: 20000, fecha: "01/01/2020"},
-            {kilometros: 30000, fecha: "01/01/2021"},
-            {kilometros: 40000, fecha: "01/01/2022"},
-            {kilometros: 50000, fecha: "01/01/2023"},
-          ],
-          aire: [
-            {kilometros: 20000, fecha: "01/01/2020"},
-            {kilometros: 40000, fecha: "01/01/2022"}
-          ],
-          combustible: [
-            {kilometros: 20000, fecha: "01/01/2020"},
-            {kilometros: 40000, fecha: "01/01/2022"}
-          ]
-        }
-      }
-    }, {
-      id: "456852159",
-      nombre: "Vehículo 02",
-      datosVehiculo: {
-        idLocalizador: "987654321",
-        chasis: "45682",
-        matricula: "1234ABC",
-        marca: "Ford",
-        modelo: "Focus",
-        tipo: "Turismo",
-      },
-      estadoVehiculo: {
-        kilometrajeIncial: 10000,
-        kilometrajeActual: 54000,
-        mediaDiaria: 400,
-        filtros: {
-          aceite: [
-            {kilometros: 10000, fecha: "01/01/2019"},
-            {kilometros: 20000, fecha: "01/01/2020"},
-            {kilometros: 30000, fecha: "01/01/2021"},
-            {kilometros: 40000, fecha: "01/01/2022"},
-            {kilometros: 50000, fecha: "01/01/2023"},
-          ],
-          aire: [
-            {kilometros: 20000, fecha: "01/01/2020"},
-            {kilometros: 40000, fecha: "01/01/2022"}
-          ],
-          combustible: [
-            {kilometros: 20000, fecha: "01/01/2020"},
-            {kilometros: 40000, fecha: "01/01/2022"}
-          ]
-        }
-      }
-    }
-  ];
-
-  showVehiclesList: boolean = true;
-
-  ////// Iconos
-
-  truck: string = "../../../../../assets/icons/truck_dark.svg";
-  edit: string = "../../../../../assets/icons/edit_dark.svg";
-  tools: string = "../../../../../assets/icons/tools_dark.svg";
+export class AsideAppComponent implements OnInit {
 
 
-  // Constructor
+  ////// Atributos
 
-  /**
-   * Inyecto el render para poder modificar el DOM.
-   * @param render
-   */
-  constructor( private render: Renderer2, private selectVehicle: SelectVehicleService ) { }
+  // Vehiculos
+
+  vehicles: VehicleI[] = [];
+  vehiclesDetails: VehicleI[] = [];
+  showVehiclesList: boolean = false;
+  showVehicleDetail: boolean[] = [];
+
+  // Conductores
+
+  driversList: DriverEntity[] = [];
+  driversListFiltered: DriverEntity[] = [];
+  driverShow: boolean[] = [];
+
+  // Mantenimientos
+
+  showMaintenanceDetail: boolean = false;
+
+  // Iconos
+
+  truckDark: string = "../../../../../assets/icons/dark/truck_dark.svg";
+  personDark: string = "../../../../../assets/icons/dark/person_dark.svg";
+  toolsDark: string = "../../../../../assets/icons/dark/tools_dark.svg";
+  truckBlue: string = "../../../../../assets/icons/blue/truck_blue.svg";
+  personBlue: string = "../../../../../assets/icons/blue/person_blue.svg";
+  toolsBlue: string = "../../../../../assets/icons/blue/tools_blue.svg";
+  arrowGray: string = "../../../../../assets/icons/gray/arrow_circle_gray.svg";
 
 
-  // Métodos
+  ////// Constructor
 
-
-  /**
-   * Después de que se haya cargado la vista, se ejecuta este método.
-   */
-  ngAfterViewInit() {
-    this.showVehicles();
+  constructor(
+    private render: Renderer2,
+    private selectVehicle: SelectVehicleService,
+    private vehicleService: VehiclesService,
+    private driverService: DriverService
+  ) {
   }
 
-  /**
-   * Método que muestra los vehículos en la lista del aside.
-   */
-  showVehicles() {
 
-    const ul = this.render.selectRootElement('#vehicleList');
+  ////// Métodos
 
-    for (let i = 0; i < this.vehicles.length; i++) {
+  ngOnInit() { // Después de que se haya cargado el componente, obtengo los vehículos del usuario.
+    this.getOwnerVehicles();
+  }
 
-      // Creo los elementos HTML.
-      const li = this.render.createElement('li');
-      const divLeft = this.render.createElement('div');
-      const divRight = this.render.createElement('div');
-      const input = this.render.createElement('input');
-      const imgTruck = this.render.createElement('img');
-      const imgEdit = this.render.createElement('img');
-      const imgTools = this.render.createElement('img');
-      const label = this.render.createElement('label');
+  getOwnerVehicles(): void { // Obtengo los vehículos del usuario a través del servicio.
 
-      // Anido los elementos HTML entre ellos.
-      this.render.appendChild(ul, li);
-      this.render.appendChild(li, divLeft);
-      this.render.appendChild(li, divRight);
-      this.render.appendChild(divLeft, input);
-      this.render.appendChild(divLeft, imgTruck);
-      this.render.appendChild(divLeft, label);
-      this.render.appendChild(divRight, imgEdit);
-      this.render.appendChild(divRight, imgTools);
+    // Obtengo el usuario del localStorage.
+    let user: UserI;
+    let userString: string | null = localStorage.getItem('user');
 
-      // Añado los atributos y clases a los elementos HTML.
-      this.render.setAttribute(input, "id", `truck${i}`);
-      this.render.setAttribute(input, "type", "checkbox");
-      this.render.setAttribute(input, "name", `truck${i}`);
-      this.render.listen(input, "change", ( event ) => { this.onCheckboxClick( event.target.checked, i+1 ) });
-      this.render.setAttribute(imgTruck, "src", this.truck);
-      this.render.setAttribute(imgTruck, "alt", "icono de tipo de vehículo");
-      this.render.addClass(imgTruck, "icon");
-      this.render.setAttribute(label, "for", `truck${i}`);
+    // Si hay usuario, lo parseo y obtengo sus vehículos del servicio.
+    if (userString) {
+      user = JSON.parse(userString);
+      this.vehicleService.getVehiclesByEmail(user.email).subscribe({
+        next: (vehicles: VehicleI[]) => {
+          this.vehicles = vehicles;
+          this.showVehiclesList = true;
+          for ( let vehicle of vehicles ) this.showVehicleDetail.push(false);
 
-      // Añado los atributos y clases a los elementos HTML.
-      this.render.setAttribute(imgEdit, "src", this.edit);
-      this.render.setAttribute(imgEdit, "alt", "icono de editar vehículo");
-      this.render.addClass(imgEdit, "icon");
-      this.render.setAttribute(imgTools, "src", this.tools);
-      this.render.setAttribute(imgTools, "alt", "icono de herramientas");
-      this.render.addClass(imgTools, "icon");
+          // Obtengo la lista de conductores.
+          this.vehicles.forEach((vehicle: VehicleI) => {
+            this.driverService.getDriver(vehicle._id).subscribe({
+              next: (driver: DriverEntity) => {
+                this.driversList.push(driver);
+              }, error: (err) => {
+                console.error("Error al obtener el conductor en getOwnerVehicles(): ");
+                console.error(err);
+              }
+            });
+            // Establezco el estado de los conductores a true.
+            this.driverShow.push(true);
+          });
 
-      // Creo el título de cada lista.
-      const titulo = document.createTextNode( this.vehicles[i].nombre );
-      this.render.appendChild( label, titulo );
-
+        }, error: (err) => {
+          console.error("Error al obtener vehículos en getOwnerVehicles(): " + err);
+          this.showVehiclesList = false;
+        }
+      });
     }
 
   }
 
-  onCheckboxClick( check: boolean, id: number ): void {
-    if (check) this.selectVehicle.checkedVehicle.next( id );
+  onTruckClick(check: Event, id: number): void { // Método que se ejecuta cuando se hace clic en un vehículo
+
+    // Recupero el valor del estado del checkbox.
+    const checked: boolean = (check.target as HTMLInputElement).checked;
+
+    // Le pasa el dato al servicio para que procese la posición en el mapa y cambio de color los iconos.
+    if (checked) {
+      this.selectVehicle.checkedVehicle.next(this.vehicles[id - 1]);
+      this.changeTruckIconColor(checked, id);
+      this.showVehicleDetail[id-1] = true;
+    } else {
+      this.selectVehicle.unCheckedVehicle.next(this.vehicles[id - 1]);
+      this.changeTruckIconColor(checked, id);
+      this.showVehicleDetail[id-1] = false;
+    }
+
+  }
+
+  public onDriverClick(state: boolean, index: number): void { // Método que se ejecuta cuando se hace clic en un conductor.
+
+    // Si el estado es true, cambio el icono a azul.
+    if (state) {
+      // Cambio el estado del booleano para que cambie el icono que se muestra.
+      this.driverShow[index] = false;
+      // Añado el conductor indicado al array de conductores seleccionados.
+      this.driversListFiltered.push(this.driversList[index]);
+      console.log(this.driversListFiltered)
+    } else {
+      // Cambio el estado del booleano para que cambie el icono que se muestra.
+      this.driverShow[index] = true;
+      // Elimino el conductor indicado del array de conductores seleccionados.
+      this.driversListFiltered = this.driversListFiltered.filter((driver) => {
+        return driver._id !== this.driversList[index]._id
+      });
+      console.log(this.driversListFiltered)
+    }
+  }
+
+
+  changeTruckIconColor(check: boolean, id: number): void { // Método que cambiará el icono de color cuando es clicado.
+
+    // Recupero el icono.
+    const icon: HTMLElement | null = document.getElementById(`${id}`);
+
+    // Modifico la imagen del icono según si está clicado o des clicado
+    // y muestro u oculto los datos del vehículo.
+    if (icon) {
+      if (check) {
+        icon.setAttribute("src", this.truckBlue);
+        this.showVehicleData(this.vehicles[id - 1]);
+      } else {
+        icon.setAttribute("src", this.truckDark);
+        this.hideVehicleData(this.vehicles[id - 1]);
+      }
+    }
+
+  }
+
+  showVehicleData(vehicle: VehicleI): void { // Método que muestra en una lista todos los datos del vehículo seleccionado.
+
+    // Obtengo el elemento que contiene los datos del vehículo.
+    this.vehiclesDetails.push(vehicle);
+
+  }
+
+  hideVehicleData(vehicle: VehicleI): void { // Método que oculta los datos del vehículo seleccionado.
+
+    // Borro el vehículo de la lista de vehículos mediante el _id.
+    this.vehiclesDetails = this.vehiclesDetails.filter((v) => v._id !== vehicle._id);
+
+  }
+
+
+  onMaintenanceClick(): void { // Método que despliega la lista de mantenimientos cuando se hace clic en el icono.
+
+    // TODO
+
+  }
+
+  closeAllTables(origin: string): void {
+    // Método que cambia todos los atributos a false para cerrar todas las tablas menos la clicada.
+    // TODO
   }
 
 }

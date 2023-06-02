@@ -1,6 +1,7 @@
 aside {
   width: 100%;
   height: calc( 100vh - 120px );
+  overflow: auto;
   background-color: #EEEEEE;
   display: flex;
   flex-direction: column;
@@ -17,14 +18,7 @@ aside header {
   width: 100%;
 }
 
-aside header #checkTodos {
-  width: 20px;
-  height: 20px;
-  margin-right: 20px;
-  background-color: #222831;
-}
-
-aside header label h4 {
+aside header h4 {
   color: #EEE;
   margin: 0;
 }
@@ -35,6 +29,7 @@ aside div {
 
 #vehicleList {
   width: 100%;
+  padding: 0;
 }
 
 #vehicleList li {
@@ -60,6 +55,7 @@ aside div {
 
 #vehicleList li div:nth-child(2) {
   justify-content: flex-end;
+  width: auto;
 }
 
 #vehicleList li label {
@@ -70,6 +66,7 @@ aside div {
   width: 20px;
   height: 20px;
   margin-right: 20px;
+  cursor: pointer;
 }
 
 .icon {
@@ -77,4 +74,67 @@ aside div {
   height: 20px;
   cursor: pointer;
   margin-right: 20px;
+}
+
+/* TABLA */
+
+
+.table div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.table .headerTable {
+  width: 80%;
+  margin: 25px 0;
+}
+
+.table div .headerTable h5 {
+  margin: 0;
+}
+
+.table div table {
+  width: 80%;
+}
+
+.table div table thead tr {
+  width: 100%;
+  height: 40px;
+  background-color: #393E46;
+  border: none;
+}
+
+.table div table thead tr th {
+  color: #EEE;
+  padding-left: 10px;
+  overflow: hidden;
+}
+
+.table div table thead tr th img {
+  float: right;
+  margin-top: 5px;
+}
+
+.table div table tbody tr:nth-child(odd) {
+  width: 100%;
+  height: 40px;
+  background-color: #EEEEEE;
+  border: none;
+}
+
+.table div table tbody tr:nth-child(even) {
+  width: 100%;
+  height: 40px;
+  background-color: #D4D4D4;
+  border: none;
+}
+
+.table div table tbody tr td {
+  width: 50%;
+}
+
+.table div table tbody tr td p {
+  margin: 0;
+  padding-left: 10px;
 }

@@ -1,13 +1,242 @@
 <aside>
+
+  <!-- CABECERA -->
+
   <header>
-    <input type="checkbox" id="checkTodos">
-    <label for="checkTodos"><h4>Tus Vehículos</h4></label>
+    <h4>Tus Vehículos</h4>
   </header>
+
+  <!-- LISTADO DE VEHÍCULOS -->
+
   <div>
     <ul id="vehicleList" *ngIf="showVehiclesList; else noVehicles">
+      <li *ngFor="let vehicle of vehicles; let i = index">
+        <div>
+          <input id="truck{{i+1}}" type="checkbox" name="truck{{i+1}}" (change)="onTruckClick( $event, i+1)">
+          <label for="truck{{i+1}}">
+            <img [src]="truckDark" id="{{i+1}}" alt="icono de tipo de vehículo" class="icon">
+          </label>
+          <label for="truck{{i+1}}">{{vehicle.marca}} {{vehicle.modelo}} - {{vehicle.matricula}}</label>
+        </div>
+        <div>
+          <!-- Conductor -->
+          <img *ngIf="driverShow[i]; else noShowDriver" [src]="personDark" id="driver{{(i+1)}}"
+               alt="icono de detalles del conductor" class="icon" (click)="onDriverClick( true, i )">
+          <ng-template #noShowDriver>
+            <img [src]="personBlue" id="driver{{(i+1)}}" alt="icono de detalles del conductor" class="icon"
+                 (click)="onDriverClick( false, i )">
+          </ng-template>
+          <!-- Mantenimiento -->
+          <img [src]="toolsDark" id="tools{{i+1}}" alt="icono de herramientas" class="icon"
+               (click)="onMaintenanceClick()">
+        </div>
     </ul>
     <ng-template #noVehicles>
       <p>No tienes vehículos registrados</p>
     </ng-template>
   </div>
+
+  <!-- DETALLE DE VEHÍCULO -->
+
+  <div class="table" *ngIf="showVehicleDetail">
+    <div *ngFor="let vehicle of vehiclesDetails; let i = index">
+      <div *ngIf="showVehicleDetail[i]">
+        <div class="headerTable">
+          <h5>{{vehicle.marca}} {{vehicle.modelo}} - {{vehicle.matricula}}</h5>
+        </div>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="2">
+              <label>Información del vehículo.</label>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td class="td1">
+              <p>Id</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle._id}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Id Dispositivo</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle.idDispositivo}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Id Mantenimiento</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle.idMantenimiento}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Tipo de Vehículo</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle.tipoVehiculo}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Marca</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle.marca}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Modelo</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle.modelo}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Chasis</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle.chasis}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Matrícula</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle.matricula}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Fecha Alta</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle.fechaAlta}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Kilometros Iniciales</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle.kmIniciales}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Kilometros Actuales</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle.kmActuales}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Estado</p>
+            </td>
+            <td class="td2">
+              <p>{{vehicle.estado}}</p>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETALLE DE CONDUCTOR -->
+
+  <div class="table">
+    <div *ngFor="let driver of driversListFiltered">
+      <div class="headerTable">
+        <h5>{{driver.nombre}} ( {{driver.dni}} )</h5>
+      </div>
+      <table>
+        <thead>
+        <tr>
+          <th colspan="2">
+            <label>Información del conductor.</label>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="td1">
+            <p>Id</p>
+          </td>
+          <td class="td2">
+            <p>{{driver._id}}</p>
+          </td>
+        </tr>
+        <tr>
+          <td class="td1">
+            <p>Dni</p>
+          </td>
+          <td class="td2">
+            <p>{{driver.dni}}</p>
+          </td>
+        </tr>
+        <tr>
+          <td class="td1">
+            <p>Fecha Alta</p>
+          </td>
+          <td class="td2">
+            <p>{{driver.fechaAlta}}</p>
+          </td>
+        </tr>
+        <tr>
+          <td class="td1">
+            <p>Fecha Permiso Circulación</p>
+          </td>
+          <td class="td2">
+            <p>{{driver.fechaPermisoCirculacion}}</p>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DETALLE DE MANTENIMIENTO -->
+
+  <div class="table" *ngIf="showMaintenanceDetail">
+    <div> <!--    <div *ngFor="let vehicle of vehiclesDetails">-->
+      <div class="headerTable">
+        <h5>Información de Mantenimiento.</h5>
+      </div>
+      <table>
+        <thead>
+        <tr>
+          <th colspan="2">
+            <label>Cambio de Aceite.</label>
+            <img [src]="arrowGray" class="icon" alt="icono">
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="td1">
+            <p>key</p>
+          </td>
+          <td class="td2">
+            <p>value</p>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </aside>
+

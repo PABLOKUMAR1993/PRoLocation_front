@@ -15,9 +15,9 @@ export class FooterAppComponent {
 
   ////// iconos
 
-  aside: string = "../../../../../assets/icons/aside.svg";
-  userAdmin: string = "../../../../../assets/icons/user-admin.svg";
-  logOut: string = "../../../../../assets/icons/logout.svg";
+  aside: string = "../../../../../assets/icons/gray/aside_gray.svg";
+  userAdmin: string = "../../../../../assets/icons/gray/user_admin_gray.svg";
+  logOut: string = "../../../../../assets/icons/gray/logout_gray.svg";
 
 
   // Constructor
