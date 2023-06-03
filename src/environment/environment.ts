@@ -10,4 +10,5 @@ export const environment = {
   apiDriverVehicle: "/driverVehicle",
   apiMaps: "https://maps.googleapis.com/maps/api/js?key=",
   apiMapsKey: "AIzaSyCzaM-R5bZ1BXhmgvRk2wovhpDEYnyW58w"
+
 }
