@@ -11,18 +11,26 @@
   <div>
     <ul id="vehicleList" *ngIf="showVehiclesList; else noVehicles">
       <li *ngFor="let vehicle of vehicles; let i = index">
+        <!-- Vehículo -->
         <div>
-          <input id="truck{{i+1}}" type="checkbox" name="truck{{i+1}}" (change)="onTruckClick( $event, i+1)">
+          <input id="truck{{i+1}}" type="checkbox" name="truck{{i+1}}" (change)="onVehicleClick( i, $event )">
           <label for="truck{{i+1}}">
             <img [src]="truckDark" id="{{i+1}}" alt="icono de tipo de vehículo" class="icon">
           </label>
           <label for="truck{{i+1}}">{{vehicle.marca}} {{vehicle.modelo}} - {{vehicle.matricula}}</label>
         </div>
         <div>
+          <!-- Seguimiento -->
+          <img *ngIf="showMapPin[i]; else showMap" [src]="mapPinDark" id="map-pin{{(i+1)}}"
+               alt="icono para hacer seguimiento en tiempo real" class="icon" (click)="onMapPinClick( true, i )">
+          <ng-template #showMap>
+            <img [src]="mapPinBlue" id="map-pin{{(i+1)}}" alt="icono para hacer seguimiento en tiempo real" class="icon"
+                 (click)="onMapPinClick( false, i )">
+          </ng-template>
           <!-- Conductor -->
-          <img *ngIf="driverShow[i]; else noShowDriver" [src]="personDark" id="driver{{(i+1)}}"
+          <img *ngIf="driverShow[i]; else showDriver" [src]="personDark" id="driver{{(i+1)}}"
                alt="icono de detalles del conductor" class="icon" (click)="onDriverClick( true, i )">
-          <ng-template #noShowDriver>
+          <ng-template #showDriver>
             <img [src]="personBlue" id="driver{{(i+1)}}" alt="icono de detalles del conductor" class="icon"
                  (click)="onDriverClick( false, i )">
           </ng-template>
@@ -38,7 +46,7 @@
 
   <!-- DETALLE DE VEHÍCULO -->
 
-  <div class="table" *ngIf="showVehicleDetail">
+  <div class="table">
     <div *ngFor="let vehicle of vehiclesDetails; let i = index">
       <div *ngIf="showVehicleDetail[i]">
         <div class="headerTable">
@@ -152,6 +160,75 @@
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+
+  <!-- DETALLES DE SEGUIMIENTO -->
+
+  <div class="table">
+    <div *ngIf="isPositionRecieved">
+      <div class="headerTable">
+        <h5> -- </h5>
+      </div>
+      <table>
+        <thead>
+        <tr>
+          <th colspan="2">
+            <label>Seguimiento en Tiempo Real.</label>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td1">
+              <p>Id Posición:</p>
+            </td>
+            <td class="td2">
+              <p>{{positionMapPin._id}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Id Dispositivo:</p>
+            </td>
+            <td class="td2">
+              <p>{{positionMapPin.id}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Longitud:</p>
+            </td>
+            <td class="td2">
+              <p>{{positionMapPin.longitud}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Latitud:</p>
+            </td>
+            <td class="td2">
+              <p>{{positionMapPin.latitud}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Velocidad:</p>
+            </td>
+            <td class="td2">
+              <p>{{positionMapPin.velocidad}} kmph</p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              <p>Fecha:</p>
+            </td>
+            <td class="td2">
+              <p>{{positionMapPin.timestamp}}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 

@@ -10,5 +10,9 @@ export class SelectVehicleService {
   // Concretamente aside con section.
   checkedVehicle: Subject<any> = new Subject<any>();
   unCheckedVehicle: Subject<any> = new Subject<any>();
+  pinClicked: Subject<any> = new Subject<any>();
+  pinUnClicked: Subject<any> = new Subject<any>();
+  positionSelected: Subject<any> = new Subject<any>();
 
 }
+

@@ -1,4 +1,5 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {Component, ViewChild, OnInit, Injectable} from '@angular/core';
+import {webSocket, WebSocketSubject} from "rxjs/webSocket";
 import {PositionService} from "../../../services/position.service";
 import {Subscription} from "rxjs";
 import {SelectVehicleService} from "../../../services/select-vehicle.service";
@@ -11,7 +12,7 @@ import {UserI} from "../../../interface/UserI";
   templateUrl: './section-app.component.html',
   styleUrls: ['./section-app.component.css']
 })
-export class SectionAppComponent implements AfterViewInit {
+export class SectionAppComponent implements OnInit {
 
 
   ////// Atributos.
@@ -21,6 +22,7 @@ export class SectionAppComponent implements AfterViewInit {
   private subscription: Subscription = new Subscription();
   private positions: PositionI[] = [];
   private positionsDefault: PositionI[] = [];
+  private actualPositionSelected: PositionI | any;
 
   // Google Maps.
 
@@ -29,16 +31,19 @@ export class SectionAppComponent implements AfterViewInit {
   private markers: google.maps.Marker[] | any = [];
   private centers: google.maps.LatLng[] | any = [];
 
+  // WebSockets.
+
+  private socket$: WebSocketSubject<PositionI> | any;
+
 
   ////// Constructor.
 
-  constructor(private positionService: PositionService, private selectVehicle: SelectVehicleService) {
-  }
+  constructor(private positionService: PositionService, private selectVehicle: SelectVehicleService) { }
 
 
   ////// Métodos.
 
-  ngAfterViewInit() { // Método que se ejecuta después de que se haya cargado la vista.
+  ngOnInit() { // Método que se ejecuta después de que se haya cargado el componente.
 
     // Si no se marca ningún vehículo, se muestran las últimas posiciones de todos los vehículos.
     this.addFirstPositions();
@@ -57,9 +62,23 @@ export class SectionAppComponent implements AfterViewInit {
       console.log("Error al recibir el vehículo en el checkBox: " + error);
     });
 
+    // Cada vez que es clicado el botón de seguimiento en tiempo real.
+    this.subscription = this.selectVehicle.pinClicked.subscribe((vehicle: VehicleI) => {
+      console.log("Pin clicado");
+      this.connectVehicleWS(vehicle);
+    });
+
+    // Cada vez que es des clicado el botón de seguimiento en tiempo real.
+    this.subscription = this.selectVehicle.pinUnClicked.subscribe((vehicle: VehicleI) => {
+      console.log("Pin des clicado");
+      this.stopVehicleWS();
+    });
+
   }
 
-  addFirstPositions(): void { // Método que obtiene la última posición del primer vehículo de la lista.
+  ////// Métodos de posicionamiento estático.
+
+  addFirstPositions(): void { // Método que obtiene la última posición de todos los vehículos.
 
     // Obtengo el usuario del localStorage.
     let user: UserI;
@@ -67,13 +86,13 @@ export class SectionAppComponent implements AfterViewInit {
     if (userString !== null) {
       user = JSON.parse(userString);
       // Obtengo la posición de todos los vehiculos.
-      for (let i = 0; i < 2; i++){
+      for (let i = 0; i < 2; i++) {
         const id = user.vehiculos[i];
-        this.positionService.lastPositionVehicle( id ).subscribe({
+        this.positionService.lastPositionVehicle(id).subscribe({
           next: (position: PositionI) => {
             // Mediante el ID de la posición compruebo si ya está en el array de posiciones. Si no está, lo añado.
             this.positionsDefault.push(position);
-            console.log( "pedido" );
+            console.log("pedido");
             // if (!this.positionsDefault.some((positionOfArray: PositionI) => positionOfArray._id === position._id)) {
             //
             // }
@@ -82,7 +101,7 @@ export class SectionAppComponent implements AfterViewInit {
           }, complete: () => {
             // Cuando se han obtenido todas las posiciones, se muestran en el mapa.
             if (this.positionsDefault.length === user.vehiculos.length) {
-              console.log( "doble" )
+              console.log("doble")
               this.addCoords();
             }
           }
@@ -97,6 +116,7 @@ export class SectionAppComponent implements AfterViewInit {
     this.positionService.lastPositionVehicle(vehicle._id).subscribe({
       next: (position: PositionI) => {
         this.positions.push(position);
+        console.log(this.positions)
         console.log("Añado posición");
       }, error: (error) => {
         console.log("Error al obtener la última posición del vehículo: " + error);
@@ -113,17 +133,18 @@ export class SectionAppComponent implements AfterViewInit {
 
     this.positionService.lastPositionVehicle(vehicle._id).subscribe({
       next: (position: PositionI) => {
-        // Mediante el ID de la posición compruebo si ya está en el array de posiciones. Si está, lo elimino.
-        if (this.positions.some((positionOfArray: PositionI) => positionOfArray._id === position._id)) {
-          this.positions = this.positions.filter((positionOfArray: PositionI) => positionOfArray._id !== position._id);
-          console.log("Elimino posición");
-        } else {
-          console.log("El vehículo no está en el array");
+        // Mediante el ID de la posición recibida, busco la posición en el array de posiciones y la elimino.
+        for (let i: number = 0; i < this.positions.length; i++) {
+          if (this.positions[i]._id === position._id) {
+            this.positions.splice(i, 1);
+          }
         }
+        console.log("Elimino posición");
+        console.log(this.positions);
       }, error: (error) => {
         console.log("Error al obtener la última posición del vehículo en deletePosition(): " + error)
       }, complete: () => {
-        // Cuando se ha eliminado la posición, vacío el array por defecto y actualizo el mapa.
+        // Cuándo se ha eliminado la posición, vacío el array por defecto y actualizo el mapa.
         this.positionsDefault = [];
         this.addCoords();
       }
@@ -131,18 +152,62 @@ export class SectionAppComponent implements AfterViewInit {
 
   }
 
+  ////// Métodos de posicionamiento dinámico.
+
+  public connectVehicleWS(vehicle: VehicleI): void { // Método que conecta con el servidor mediante WebSockets.
+
+    if (!this.socket$) {
+
+      // Creo una conexión con el servidor mediante WebSockets.
+      this.socket$ = webSocket<PositionI>('ws://localhost:3001');
+
+      // Escucho los mensajes que me envía el servidor y actualizo la posición del vehículo.
+      this.socket$.subscribe({
+        next: (position: PositionI) => {
+          this.actualPositionSelected = position;
+          this.sendVehicleWS(vehicle);
+          this.addCoords();
+          this.selectVehicle.positionSelected.next( position ); // Le paso la posición al componente de información.
+        }, error: (error: any) => {
+          console.error("Error al recibir el mensaje del servidor: ");
+          console.error(error);
+        }
+      });
+
+      // Le paso el vehículo al iniciar la comunicación.
+      this.socket$.next(vehicle);
+
+    }
+  }
+
+  public sendVehicleWS(vehicle: VehicleI): void { // Método que envía un vehículo al servidor mediante WebSockets.
+    this.socket$.next(vehicle);
+  }
+
+  public stopVehicleWS(): void { // Método que desconecta del servidor mediante WebSockets.
+    this.socket$.complete();
+    this.socket$ = undefined;
+  }
+
+  ////// Métodos de pintado de mapa.
+
   addCoords(): void { // Método que muestra las posiciones en el mapa.
 
     // Relleno el array de ubicaciones.
-    if ( this.positionsDefault.length === 0 ) {
+    if (this.actualPositionSelected !== undefined) {
       this.centers = [];
-      for (let i: number = 0; i < this.positions.length; i++) {
-        this.centers[i] = new google.maps.LatLng(Number(this.positions[i].latitud), Number(this.positions[i].longitud));
-      }
+      this.centers[0] = new google.maps.LatLng(Number(this.actualPositionSelected.latitud), Number(this.actualPositionSelected.longitud));
     } else {
-      this.centers = [];
-      for (let i: number = 0; i < this.positionsDefault.length; i++) {
-        this.centers[i] = new google.maps.LatLng(Number(this.positionsDefault[i].latitud), Number(this.positionsDefault[i].longitud));
+      if (this.positionsDefault.length === 0) {
+        this.centers = [];
+        for (let i: number = 0; i < this.positions.length; i++) {
+          this.centers[i] = new google.maps.LatLng(Number(this.positions[i].latitud), Number(this.positions[i].longitud));
+        }
+      } else {
+        this.centers = [];
+        for (let i: number = 0; i < this.positionsDefault.length; i++) {
+          this.centers[i] = new google.maps.LatLng(Number(this.positionsDefault[i].latitud), Number(this.positionsDefault[i].longitud));
+        }
       }
     }
 
@@ -159,23 +224,28 @@ export class SectionAppComponent implements AfterViewInit {
       zoom: 10
     });
 
+    this.markers = []; // Limpio el array de marcadores.
+
     // Creo los marcadores.
     for (let i = 0; i < this.centers.length; i++) {
-      this.markers[i] = new google.maps.Marker({
+      const marker = new google.maps.Marker({
         position: this.centers[i],
         map: this.map
       });
+      this.markers.push(marker);
     }
 
-    // Calcular los límites que contienen ambos marcadores
+    this.adjustZoom(); // Ajustar el zoom después de agregar o quitar marcadores
+
+  }
+
+  adjustZoom(): void {
     const bounds = new google.maps.LatLngBounds();
     for (const marker of this.markers) {
       bounds.extend(marker.getPosition() as google.maps.LatLng);
     }
 
-    // Ajustar el zoom y el centro del mapa para mostrar ambos marcadores
     this.map.fitBounds(bounds);
-
   }
 
 }

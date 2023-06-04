@@ -5,6 +5,7 @@ import {VehicleI} from "../../../interface/VehicleI";
 import {UserI} from "../../../interface/UserI";
 import {DriverService} from "../../../services/driver.service";
 import {DriverEntity} from "../../../entity/DriverEntity";
+import {PositionI} from "../../../interface/PositionI";
 
 @Component({
   selector: 'app-aside-app',
@@ -33,14 +34,22 @@ export class AsideAppComponent implements OnInit {
 
   showMaintenanceDetail: boolean = false;
 
+  // MapPin
+
+  showMapPin: boolean[] = [];
+  isPositionRecieved: boolean = false;
+  positionMapPin: PositionI | any;
+
   // Iconos
 
   truckDark: string = "../../../../../assets/icons/dark/truck_dark.svg";
   personDark: string = "../../../../../assets/icons/dark/person_dark.svg";
   toolsDark: string = "../../../../../assets/icons/dark/tools_dark.svg";
+  mapPinDark: string = "../../../../../assets/icons/dark/map_marker_dark.svg";
   truckBlue: string = "../../../../../assets/icons/blue/truck_blue.svg";
   personBlue: string = "../../../../../assets/icons/blue/person_blue.svg";
   toolsBlue: string = "../../../../../assets/icons/blue/tools_blue.svg";
+  mapPinBlue: string = "../../../../../assets/icons/blue/map_marker_blue.svg";
   arrowGray: string = "../../../../../assets/icons/gray/arrow_circle_gray.svg";
 
 
@@ -59,6 +68,19 @@ export class AsideAppComponent implements OnInit {
 
   ngOnInit() { // Después de que se haya cargado el componente, obtengo los vehículos del usuario.
     this.getOwnerVehicles();
+
+    // Cada vez que se recibe una posición del websocket.
+    this.selectVehicle.positionSelected.subscribe({
+      next: (position: PositionI) => {
+        this.positionMapPin = position;
+        this.isPositionRecieved = true;
+        console.log("Posición recibida: ");
+        console.log(position);
+      }, error: (error) => {
+        console.error("Error al recibir la posición del vehículo: ");
+        console.error(error);
+      }
+    });
   }
 
   getOwnerVehicles(): void { // Obtengo los vehículos del usuario a través del servicio.
@@ -72,9 +94,11 @@ export class AsideAppComponent implements OnInit {
       user = JSON.parse(userString);
       this.vehicleService.getVehiclesByEmail(user.email).subscribe({
         next: (vehicles: VehicleI[]) => {
+
+          // Obtengo la lista de vehículos.
           this.vehicles = vehicles;
           this.showVehiclesList = true;
-          for ( let vehicle of vehicles ) this.showVehicleDetail.push(false);
+          for (let vehicle of vehicles) this.showVehicleDetail.push(true);
 
           // Obtengo la lista de conductores.
           this.vehicles.forEach((vehicle: VehicleI) => {
@@ -88,7 +112,11 @@ export class AsideAppComponent implements OnInit {
             });
             // Establezco el estado de los conductores a true.
             this.driverShow.push(true);
+            // Establezco el estado de los mapPin a true.
+            this.showMapPin.push(true);
           });
+
+          // Obtengo la lista de mantenimientos.
 
         }, error: (err) => {
           console.error("Error al obtener vehículos en getOwnerVehicles(): " + err);
@@ -99,20 +127,29 @@ export class AsideAppComponent implements OnInit {
 
   }
 
-  onTruckClick(check: Event, id: number): void { // Método que se ejecuta cuando se hace clic en un vehículo
+  public onVehicleClick(index: number, event: Event): void { // Método que se ejecuta cuando se hace clic en un vehículo.
 
     // Recupero el valor del estado del checkbox.
-    const checked: boolean = (check.target as HTMLInputElement).checked;
+    const checked: boolean = (event.target as HTMLInputElement).checked;
+    // Recupero el icono.
+    const icon: HTMLElement | null = document.getElementById(`${index+1}`);
 
-    // Le pasa el dato al servicio para que procese la posición en el mapa y cambio de color los iconos.
     if (checked) {
-      this.selectVehicle.checkedVehicle.next(this.vehicles[id - 1]);
-      this.changeTruckIconColor(checked, id);
-      this.showVehicleDetail[id-1] = true;
+      // Cambio el color del icono.
+      if (icon) icon.setAttribute("src", this.truckBlue);
+      // Añado el vehículo indicado al array de vehículos seleccionados.
+      this.vehiclesDetails.push( this.vehicles[index] );
+      // Llamo al servicio para indicarle al mapa el vehículo activo.
+      this.selectVehicle.checkedVehicle.next(this.vehicles[index]);
     } else {
-      this.selectVehicle.unCheckedVehicle.next(this.vehicles[id - 1]);
-      this.changeTruckIconColor(checked, id);
-      this.showVehicleDetail[id-1] = false;
+      // Cambio el color del icono.
+      if (icon) icon.setAttribute("src", this.truckDark);
+      // Elimino el vehículo indicado del array de vehículos seleccionados.
+      this.vehiclesDetails = this.vehiclesDetails.filter((vehicle) => {
+        return vehicle._id !== this.vehicles[index]._id
+      });
+      // Llamo al servicio para indicarle al mapa el vehículo que se acaba de desactivar.
+      this.selectVehicle.unCheckedVehicle.next(this.vehicles[index]);
     }
 
   }
@@ -125,7 +162,6 @@ export class AsideAppComponent implements OnInit {
       this.driverShow[index] = false;
       // Añado el conductor indicado al array de conductores seleccionados.
       this.driversListFiltered.push(this.driversList[index]);
-      console.log(this.driversListFiltered)
     } else {
       // Cambio el estado del booleano para que cambie el icono que se muestra.
       this.driverShow[index] = true;
@@ -133,44 +169,24 @@ export class AsideAppComponent implements OnInit {
       this.driversListFiltered = this.driversListFiltered.filter((driver) => {
         return driver._id !== this.driversList[index]._id
       });
-      console.log(this.driversListFiltered)
     }
   }
 
+  public onMapPinClick(state: boolean, index: number): void {
 
-  changeTruckIconColor(check: boolean, id: number): void { // Método que cambiará el icono de color cuando es clicado.
-
-    // Recupero el icono.
-    const icon: HTMLElement | null = document.getElementById(`${id}`);
-
-    // Modifico la imagen del icono según si está clicado o des clicado
-    // y muestro u oculto los datos del vehículo.
-    if (icon) {
-      if (check) {
-        icon.setAttribute("src", this.truckBlue);
-        this.showVehicleData(this.vehicles[id - 1]);
-      } else {
-        icon.setAttribute("src", this.truckDark);
-        this.hideVehicleData(this.vehicles[id - 1]);
-      }
+    if (state) {
+      // Cambio el estado del booleano para que cambie el icono que se muestra.
+      this.showMapPin[index] = false;
+      // Llamo al servicio para indicarle al mapa el vehículo activo.
+      this.selectVehicle.pinClicked.next(this.vehicles[index]);
+    } else {
+      // Cambio el estado del booleano para que cambie el icono que se muestra.
+      this.showMapPin[index] = true;
+      // Llamo al servicio para indicarle al mapa el vehículo que se acaba de desactivar.
+      this.selectVehicle.pinUnClicked.next(this.vehicles[index]);
     }
 
   }
-
-  showVehicleData(vehicle: VehicleI): void { // Método que muestra en una lista todos los datos del vehículo seleccionado.
-
-    // Obtengo el elemento que contiene los datos del vehículo.
-    this.vehiclesDetails.push(vehicle);
-
-  }
-
-  hideVehicleData(vehicle: VehicleI): void { // Método que oculta los datos del vehículo seleccionado.
-
-    // Borro el vehículo de la lista de vehículos mediante el _id.
-    this.vehiclesDetails = this.vehiclesDetails.filter((v) => v._id !== vehicle._id);
-
-  }
-
 
   onMaintenanceClick(): void { // Método que despliega la lista de mantenimientos cuando se hace clic en el icono.
 
